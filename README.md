@@ -1,6 +1,6 @@
 # DAWEB_CSC_Sandor_AndreiC_Assignment1
 
-
+TEST
 
 ## Getting started
 
