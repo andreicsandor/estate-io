@@ -1,5 +1,5 @@
 
 
-export default function CommercialRenting() {
+export default function CommercialRent() {
     return <h1>Rent Commercial</h1>
   }
