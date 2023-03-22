@@ -2,12 +2,14 @@ import { Route, Routes } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import About from './pages/About';
-import Commercial from './pages/Commercial';
+import CommercialBuy from './pages/CommercialBuy';
+import CommercialRent from './pages/CommercialRent';
 import Contact from './pages/Contact';
 import Header from './Header';
 import Home from './pages/Home';
 import News from './pages/News';
-import Residential from './pages/Residential';
+import ResidentialBuy from './pages/ResidentialBuy';
+import ResidentialRent from './pages/ResidentialRent';
 
 function App() {
   return (
@@ -18,8 +20,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/news" element={<News />} />
           <Route path="/about" element={<About />} />
-          <Route path="/residential" element={<Residential />} />
-          <Route path="/commercial" element={<Commercial />} />
+          <Route path="/residential-buy" element={<ResidentialBuy />} />
+          <Route path="/residential-rent" element={<ResidentialRent />} />
+          <Route path="/commercial-buy" element={<CommercialBuy />} />
+          <Route path="/commercial-rent" element={<CommercialRent />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
       </div>

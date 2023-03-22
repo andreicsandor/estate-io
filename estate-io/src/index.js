@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./static/styles.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App';
