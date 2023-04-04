@@ -1,11 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Container, Row, Col, Form, Input, Button } from 'reactstrap';
 
 function Contact() {
   return (
     <>
-    <div className='container-about'>
+    {/* <div className='container-contact'> */}
     <div style={{margin: '100px'}}></div>
     <Container className='my-5'>
       <Row>
@@ -30,7 +30,7 @@ function Contact() {
         </Col>
       </Row>
     </Container>
-    </div>
+    {/* </div> */}
     </>
   );
 }
