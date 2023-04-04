@@ -105,6 +105,16 @@ body {
     padding: .25rem;
 }
 
+.navbar-scroll {
+    top: 0px;
+    background-color: #ffffff80;
+    backdrop-filter: blur(10px);
+    opacity: 85%;
+    box-shadow: -2px -2px 4px rgba(255,255,255,0.5),
+                2px 2px 4px rgba(70,70,70,0.12);
+    z-index: 1;
+  }
+
 .news-wrapper {
     display: flex;
     justify-content: space-between;

@@ -9,7 +9,22 @@ import {
     UncontrolledDropdown
    } from 'reactstrap';
 
+import { useEffect } from "react";
+
 const Header = () => {
+  useEffect(() => {
+    const navbar = document.querySelector('.nav');
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('navbar-scroll');
+      } else {
+        navbar.classList.remove('navbar-scroll');
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <Navbar className="nav py-3 mb-3" style={{position: 'fixed', width: '100%', zIndex: 3}}>
       <div className="d-flex justify-content-center w-100">
