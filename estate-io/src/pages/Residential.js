@@ -2,7 +2,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 
-
 function ResidentialBuy() {
   const images = [
     {
@@ -45,10 +44,53 @@ function ResidentialBuy() {
         <h1 className='display-5 text-center'>Available Properties</h1>
       </Col>
     </Row>
-    <div className='mb-5 card-wrapper'>  
-      <Row>
+    <div className='m-5'>  
+      <Row sm={12}>
         {images.map(property => (
-          <Col xl key={images.id}>
+          <Col sm={4} key={images.id}>
+            <Card className='card-shadow-custom'>
+              <CardImg className='card-custom'
+                top src={property.image} 
+                alt={property.name} 
+                width="100%"
+              />
+              <CardBody>
+                <CardTitle tag='h5' className='mb-2'>{property.name}</CardTitle>
+                <CardSubtitle className='mb-3'>{property.location} - {property.price}</CardSubtitle>
+                <ul className='list-unstyled'>
+                  <li>{property.bedrooms} Bedrooms</li>
+                  <li>{property.bathrooms} Bathrooms</li>
+                  <li>{property.area} Area</li>
+                </ul>
+                <Button color='light' block>View Details</Button>
+              </CardBody>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </div>
+    </>
+  );
+}
+
+
+function ResidentialRent() {
+  const images = [
+    
+  ];
+
+  return (
+    <>
+    <div style={{margin: '100px'}}></div>
+    <Row>
+      <Col>
+        <h1 className='display-5 text-center'>Available Properties</h1>
+      </Col>
+    </Row>
+    <div className='m-5'>  
+      <Row sm={12}>
+        {images.map(property => (
+          <Col sm={4} key={images.id}>
             <Card className='card-shadow-custom'>
               <CardImg className='card-custom'
                 top src={property.image} 
@@ -75,4 +117,5 @@ function ResidentialBuy() {
   );
 }
 
-export default ResidentialBuy;
+export { ResidentialBuy, ResidentialRent }; 
+
