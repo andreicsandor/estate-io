@@ -74,12 +74,6 @@ function Home(args) {
             src: '/assets/images/sunset.jpg',
           }
         ]}
-        // indicators={false} 
-        // autoPlay={true} 
-        // ride="carousel" 
-        // pauseOnHover={false} 
-        // interval={5000} 
-        // style={{ height: '100%', maxHeight: '100vh' }} 
       />
     </div>
     <div className='mb-5 card-wrapper'>  

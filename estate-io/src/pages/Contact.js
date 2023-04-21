@@ -5,7 +5,6 @@ import { Container, Row, Col, Form, Input, Button } from 'reactstrap';
 function Contact() {
   return (
     <>
-    {/* <div className='container-contact'> */}
     <div style={{margin: '100px'}}></div>
     <Container className='my-5'>
       <Row>
@@ -30,7 +29,6 @@ function Contact() {
         </Col>
       </Row>
     </Container>
-    {/* </div> */}
     </>
   );
 }

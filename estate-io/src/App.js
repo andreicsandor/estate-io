@@ -1,16 +1,14 @@
 import { Route, Routes } from "react-router-dom";
-import { StickyContainer, Sticky } from 'react-sticky';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import About from './pages/About';
-import CommercialBuy from './pages/CommercialBuy';
-import CommercialRent from './pages/CommercialRent';
+import { Login, Signup } from './pages/Account';
+import { CommercialBuy, CommercialRent } from './pages/Commercial';
 import Contact from './pages/Contact';
-import Header from './Header';
+import Header from './pages/Header';
 import Home from './pages/Home';
 import News from './pages/News';
-import ResidentialBuy from './pages/ResidentialBuy';
-import ResidentialRent from './pages/ResidentialRent';
+import { ResidentialBuy, ResidentialRent } from './pages/Residential';
 
 function App() {
   return (
@@ -18,6 +16,8 @@ function App() {
     <Header  />
     <div className="container-custom">
       <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/news" element={<News />} />
         <Route path="/about" element={<About />} />
