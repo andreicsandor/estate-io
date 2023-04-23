@@ -58,6 +58,23 @@ const checkAnonymous = async (navigate) => {
 };
 
 
+// Function to get user location
+
+function saveLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const locationData = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      };
+      localStorage.setItem('userLocation', JSON.stringify(locationData));
+    });
+  } else {
+    console.log('Geolocation is not supported by this browser.');
+  }
+}
+
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -91,6 +108,9 @@ const Login = () => {
         navigate("/login");
       }
     }
+
+    // Call saveUserLocation after successful login
+    saveLocation();
   };
 
   return (
@@ -305,9 +325,23 @@ const AccountManagement = () => {
   const [lastName, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [preference, setPreference] = useState('');
+  const [location, setLocation] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
+
+  // Fetch the exact location
+  const fetchCityAndCountry = async (latitude, longitude) => {
+    try {
+      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`);
+      const data = await response.json();
+      const city = data.address.city || data.address.town || data.address.village;
+      const country = data.address.country;
+      setLocation(`${city}, ${country}`);
+    } catch (error) {
+      console.error('Error fetching city and country:', error);
+    }
+  };
 
   // Check user authentication status when the component mounts
   useEffect(() => {
@@ -326,7 +360,15 @@ const AccountManagement = () => {
       }
     };
 
+    // Get the user info stored in the DB
     fetchUserInfo();
+
+    // Get user location from localStorage
+    const userLocation = JSON.parse(localStorage.getItem('userLocation'));
+    if (userLocation) {
+      fetchCityAndCountry(userLocation.latitude, userLocation.longitude);
+    }
+
   }, [navigate]);
 
   const handlePasswordButton = () => {
@@ -383,6 +425,17 @@ const AccountManagement = () => {
                 value={username}
               />
             </FormGroup>
+            <FormGroup>
+                <Input
+                  type="text"
+                  name="location"
+                  id="location"
+                  placeholder="Location"
+                  bsSize="default"
+                  disabled
+                  value={location}
+                />
+              </FormGroup>
             <FormGroup>
               <Input
                 type="text"
