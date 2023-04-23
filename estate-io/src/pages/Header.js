@@ -87,7 +87,12 @@ const Header = () => {
               <UserIcon style={{ width: '20px', height: '20px' }} />
             </DropdownToggle>
             <DropdownMenu right>
-              <DropdownItem><Link to="/profile">Profile</Link></DropdownItem>
+              {isLoggedIn && ( 
+              <DropdownItem><Link to="/account">Account</Link></DropdownItem>
+              )}
+              {!isLoggedIn && ( 
+              <DropdownItem><Link to="/signup">Sign Up</Link></DropdownItem>
+              )}
               <DropdownItem divider />
               {!isLoggedIn && ( 
               <DropdownItem><Link to="/login">Login</Link></DropdownItem>

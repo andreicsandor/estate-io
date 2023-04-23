@@ -20,7 +20,7 @@ function Contact() {
       <Row className='justify-content-center'>
         <Col md={{size: 6}}>
           <Form>
-            <Input placeholder="Name" bsSize="lg" className='mb-3'/>
+            <Input placeholder="Name" bsSize="default" className='mb-3'/>
             <Input placeholder="E-mail" bsSize="default" className='mb-3'/>
             <Input placeholder="Phone" bsSize="default" className='mb-3'/>
             <Input type='textarea' name='message' id='message' rows={6} placeholder='Enter your message' className='form-control mb-5' />

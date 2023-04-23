@@ -1,9 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .serializers import CustomUserSerializer, UserLoginSerializer
+from .serializers import UserLoginSerializer, UserAccountSerializer, UserPasswordSerializer
 from .models import CustomUser
 
 
@@ -71,13 +71,42 @@ def logout_view(request):
         return Response({'success': 'You have been logged out'}, status=status.HTTP_200_OK)
     else:
         return Response({'error': 'You are not logged in'}, status=status.HTTP_400_BAD_REQUEST)
+    
 
-
-@api_view(['PATCH'])
-def update_view(request):
-    user = request.user
-    serializer = CustomUserSerializer(user, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
+@api_view(['GET', 'PUT'])
+@permission_classes([IsAuthenticated])
+def account_view(request):
+    if request.method == 'GET':
+        user = request.user
+        serializer = UserAccountSerializer(user)
         return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        user = request.user
+        serializer = UserAccountSerializer(user, data=request.data, partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def password_view(request):
+    serializer = UserPasswordSerializer(data=request.data)
+    if serializer.is_valid():
+        old_password = serializer.data.get('old_password')
+        new_password = serializer.data.get('new_password')
+        user = authenticate(username=request.user.username, password=old_password)
+
+        if user is not None:
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)
+            return Response({"success": "Password updated successfully."}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Old password is incorrect."}, status=status.HTTP_400_BAD_REQUEST)
+    
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -78,7 +78,7 @@ function Home(args) {
     </div>
     <div className='mb-5 card-wrapper'>  
       <Row>
-        <Col sm="4">
+        <Col sm="6">
           <Card body className='card-custom'>
             <CardTitle tag="h5">Latest News</CardTitle>
             <div className='subcard-wrapper-custom' style={{ height: 401, overflowY: "scroll" }}>
@@ -94,7 +94,7 @@ function Home(args) {
             </div>
           </Card>
         </Col>
-        <Col sm="4">
+        <Col sm="6">
           <Card className='card-custom'>
             <CardBody>
               <CardTitle tag="h5">Popular Now</CardTitle>
@@ -110,14 +110,6 @@ function Home(args) {
               }}
               width="100%"
             />
-          </Card>
-        </Col>
-        <Col sm="4">
-          <Card body className='card-custom'>
-            <CardTitle tag="h5">Prices Trend</CardTitle>
-            <div className='subcard-wrapper-custom' style={{ height: 401, overflowY: "scroll" }}>
-            {/* Chart with prices trend */}
-            </div>
           </Card>
         </Col>
       </Row>
