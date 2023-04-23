@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import About from './pages/About';
-import { Login, Signup } from './pages/Account';
+import { Login, Logout, Signup } from './pages/Account';
 import { CommercialBuy, CommercialRent } from './pages/Commercial';
 import Contact from './pages/Contact';
 import Header from './pages/Header';
@@ -18,6 +18,7 @@ function App() {
       <Routes>
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/" element={<Home />} />
         <Route path="/news" element={<News />} />
         <Route path="/about" element={<About />} />

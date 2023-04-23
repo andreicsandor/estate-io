@@ -27,14 +27,14 @@ def signup_view(request):
     password = request.data.get('password')
     preference = request.data.get('preference')
 
-    if not (username and email and password):
-        return Response({'error': 'All fields are required'}, status=status.HTTP_400_BAD_REQUEST)
+    if not (username and first_name and last_name and email and password and preference):
+        return Response({'error': 'All fields are required.'}, status=status.HTTP_400_BAD_REQUEST)
 
     if CustomUser.objects.filter(username=username).exists():
-        return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Username already exists.'}, status=status.HTTP_400_BAD_REQUEST)
 
     if CustomUser.objects.filter(email=email).exists():
-        return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Email already exists.'}, status=status.HTTP_400_BAD_REQUEST)
 
     user = CustomUser.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, password=password, preference=preference)
     user.save()
@@ -46,7 +46,7 @@ def signup_view(request):
         serializer = UserLoginSerializer(user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     else:
-        return Response({'error': 'Invalid login credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Invalid username or password.'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -55,12 +55,13 @@ def login_view(request):
     username = request.data.get('username')
     password = request.data.get('password')
     user = authenticate(request, username=username, password=password)
+
     if user is not None:
         login(request, user)
         serializer = UserLoginSerializer(user)
         return Response(serializer.data)
     else:
-        return Response({'error': 'Invalid login credentials'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error': 'Invalid username or password.'}, status=status.HTTP_400_BAD_REQUEST)
     
 
 @api_view(['GET'])

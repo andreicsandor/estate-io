@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Form, FormGroup, Input, Button } from 'reactstrap';
+import { Container, Row, Col, Form, FormGroup, Input, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import api from '../api';
+
 
 // Function to check user authentication status
 const checkAuthenticationStatus = async (navigate) => {
@@ -23,9 +24,11 @@ const checkAuthenticationStatus = async (navigate) => {
   }
 };
 
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   
   // Check user authentication status when the component mounts
@@ -45,11 +48,11 @@ const Login = () => {
         localStorage.setItem('refresh_token', response.data.refresh);
         navigate('/');
       } else {
-        console.error('Invalid login credentials');
+        console.error('Log in failed.');
       }
     } catch (error) {
-      if (error.response && error.response.status === 403) {
-        console.error('Authentication failed');
+      if (error.response && error.response.status === 400 || error.response.status === 401) {
+        setErrorMessage("Invalid username or password.");
       } else {
         console.error('An unknown error occurred:', error);
       }
@@ -92,7 +95,11 @@ const Login = () => {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </FormGroup>
+
             <Button color="dark" block>Login</Button>
+
+            {errorMessage && <div className="mt-5 mb-5 fw-bold error-message">{errorMessage}</div>}
+
           </Form>
         </Col>
       </Row>
@@ -101,6 +108,22 @@ const Login = () => {
   );
 };
 
+
+const Logout = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    navigate('/');
+  }, [navigate]);
+
+  return (
+    <div></div>
+  );
+};
+
+
 const Signup = () => {
   const [username, setUsername] = useState('');
   const [first_name, setName] = useState('');
@@ -108,6 +131,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [preference, setPreference] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   // Check user authentication status when the component mounts
@@ -129,18 +153,17 @@ const Signup = () => {
       if (response.status === 201) {
         navigate('/');
       } else {
-        console.error('Sign up failed');
+        console.error('Sign up failed.');
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        console.error('Invalid signup data');
+        setErrorMessage(error.response.data.error);
       } else {
         console.error('An unknown error occurred:', error);
       }
     }
   };
   
-
   return (
     <>
     <div style={{margin: '100px'}}></div>
@@ -230,6 +253,9 @@ const Signup = () => {
             </FormGroup>
             
             <Button color="dark" block>Sign up</Button>
+
+            {errorMessage && <div className="mt-5 mb-5 fw-bold error-message">{errorMessage}</div>}
+
           </Form>
         </Col>
       </Row>
@@ -238,4 +264,5 @@ const Signup = () => {
   );
 };
 
-export { Login, Signup };
+
+export { Login, Logout, Signup };
