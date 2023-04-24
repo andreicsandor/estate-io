@@ -28,7 +28,7 @@ function Contact() {
         </Col>
       </Row>
       <Row className='justify-content-center'>
-        <Col md={{size: 6}}>
+        <Col md={{size: 4}}>
           <Form>
             <Input placeholder="Name" bsSize="default" className='mb-3'/>
             <Input placeholder="E-mail" bsSize="default" className='mb-3'/>

@@ -85,7 +85,7 @@ const Login = () => {
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md={6}>
+        <Col md={4}>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Input
@@ -202,7 +202,7 @@ const Signup = () => {
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md={6}>
+        <Col md={4}>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Input
@@ -379,7 +379,7 @@ const AccountManagement = () => {
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md={6}>
+        <Col md={4}>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Input
@@ -533,7 +533,7 @@ const PasswordManagement = () => {
         </Col>
       </Row>
       <Row className="justify-content-center">
-        <Col md={6}>
+        <Col md={4}>
           <Form onSubmit={handleSubmit}>
             <FormGroup>
               <Input
