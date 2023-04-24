@@ -22,41 +22,23 @@ import {
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import api from '../Api';
-
-
-// Function to check user authentication status
-const checkAuthenticationStatus = async () => {
-  try {
-    const accessToken = localStorage.getItem("access_token");
-    if (accessToken) {
-      const response = await api.get("/api/check_authentication/");
-      if (response.data.authenticated) {
-        return true;
-      } else {
-        return false;
-      } 
-    } else {
-        return false;
-      }
-    } catch (error) {
-    console.error("Error:", error);
-  }
-};
+import { 
+  checkAuthenticated 
+} from "../Authentication";
 
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const fetchAuthStatus = async () => {
-      const authStatus = await checkAuthenticationStatus();
-      setIsLoggedIn(authStatus);
+    const checkAuth = async () => {
+      const status = await checkAuthenticated();
+      setIsAuthenticated(status);
     };
+  
+    checkAuth();
 
     const navbar = document.querySelector('.nav');
-
-    fetchAuthStatus();
 
     const handleScroll = () => {
       if (window.scrollY > 50) {
@@ -67,8 +49,8 @@ const Header = () => {
     };
     
     const handleHover = async () => {
-      const authStatus = await checkAuthenticationStatus();
-      setIsLoggedIn(authStatus);
+      const status = await checkAuthenticated();
+      setIsAuthenticated(status);
     };
 
     navbar.addEventListener('mouseenter', handleHover);
@@ -106,17 +88,17 @@ const Header = () => {
               <UserIcon style={{ width: '20px', height: '20px' }} />
             </DropdownToggle>
             <DropdownMenu right>
-              {isLoggedIn && ( 
+              {isAuthenticated && ( 
               <DropdownItem><Link to="/account">Account</Link></DropdownItem>
               )}
-              {!isLoggedIn && ( 
+              {!isAuthenticated && ( 
               <DropdownItem><Link to="/signup">Sign Up</Link></DropdownItem>
               )}
               <DropdownItem divider />
-              {!isLoggedIn && ( 
+              {!isAuthenticated && ( 
               <DropdownItem><Link to="/login">Login</Link></DropdownItem>
               )}
-              {isLoggedIn && ( 
+              {isAuthenticated && ( 
               <DropdownItem><Link to="/logout">Logout</Link></DropdownItem>
               )}
             </DropdownMenu>
