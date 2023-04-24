@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, News
+
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
@@ -14,4 +15,10 @@ class CustomUserAdmin(UserAdmin):
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
 
+
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'body', 'created')
+
+
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(News, NewsAdmin)

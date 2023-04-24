@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .serializers import UserLoginSerializer, UserAccountSerializer, UserPasswordSerializer
-from .models import CustomUser
+from .serializers import UserLoginSerializer, UserAccountSerializer, UserPasswordSerializer, NewsSerializer
+from .models import CustomUser, News
 
 
 @api_view(['GET'])
@@ -110,3 +110,29 @@ def password_view(request):
             return Response({"error": "Old password is incorrect."}, status=status.HTTP_400_BAD_REQUEST)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def news_view(request):
+    # Retrieve all news articles from the database
+    news_articles = News.objects.all().order_by('-created')
+
+    # Use the NewsSerializer to convert the news articles queryset to JSON
+    serializer = NewsSerializer(news_articles, many=True)
+
+    # Return the JSON data in a HTTP response
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def headlines_view(request):
+    # Retrieve all news articles from the database
+    news_articles = News.objects.all().order_by('-created')[:5]
+
+    # Use the NewsSerializer to convert the news articles queryset to JSON
+    serializer = NewsSerializer(news_articles, many=True)
+
+    # Return the JSON data in a HTTP response
+    return Response(serializer.data)

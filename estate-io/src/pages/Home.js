@@ -1,4 +1,8 @@
-import React from 'react';
+import { 
+  React, 
+  useState, 
+  useEffect 
+} from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,40 +19,24 @@ import {
   UncontrolledCarousel
 } from 'reactstrap';
 
+import api from '../Api';
+
 
 function Home(args) {
-  const articles = [
-    {
-      id: 1,
-      title: 'Home Prices Continue to Rise in Q1 2023',
-      body: 'According to the latest data from the National Association of Realtors, median home prices rose by 7% in the first quarter of 2023, driven by low inventory and high demand.',
-      date: 'Last updated 3 mins ago'
-    },
-    {
-      id: 2,
-      title: 'Rental Rates Soar Amid Housing Shortage',
-      body: 'As home prices continue to rise, rental rates are also increasing in many cities across the country, with some areas seeing double-digit growth.',
-      date: 'Last updated 3 mins ago'
-    },
-    {
-      id: 3,
-      title: 'The Future of Real Estate: Virtual Tours and Remote Work',
-      body: 'As remote work becomes more common, real estate agents are turning to virtual tours and digital marketing to reach buyers and sellers.',
-      date: 'Last updated 3 mins ago'
-    },
-    {
-      id: 4,
-      title: 'New York City Real Estate Market Bounces Back After Pandemic Slump',
-      body: 'After a slowdown in 2020, the New York City real estate market is showing signs of recovery, with high-end properties selling for record prices.',
-      date: 'Last updated 3 mins ago'
-    },
-    {
-      id: 5,
-      title: 'Millennials Drive Demand for Urban Living Spaces',
-      body: 'With many millennials choosing to delay marriage and parenthood, they are driving demand for urban living spaces, with amenities like bike storage, rooftop decks, and shared workspaces.',
-      date: 'Last updated 3 mins ago'
-    }
-  ];
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    const fetchHeadlines = async () => {
+      try {
+        const response = await api.get('/api/headlines/')
+        setArticles(response.data);
+      } catch (error) {
+        console.error('An error occurred while fetching headlines:', error);
+      }
+    };
+
+    fetchHeadlines();
+  }, []);
 
   return (
     <>
@@ -86,11 +74,11 @@ function Home(args) {
             <CardTitle tag="h5">Latest News</CardTitle>
             <div className='subcard-wrapper-custom' style={{ height: 600, overflowY: "scroll" }}>
               <Col sm="12">
-                {articles.map((property => (
-                  <Card body className='subcard-custom' key={property.id}>
-                    <CardTitle tag="h6" className='fw-bold'>{property.title}</CardTitle>
-                    <CardText>{property.body}</CardText>
-                    <CardText><small className="text-muted">{property.date}</small></CardText>
+                {articles.map((article => (
+                  <Card body className='subcard-custom' key={article.id}>
+                    <CardTitle tag="h6" className='fw-bold'>{article.title}</CardTitle>
+                    <CardText>{article.body}</CardText>
+                    <CardText><small className="text-muted">{new Date(article.created).toLocaleString()}</small></CardText>
                   </Card>
                 )))}
               </Col>
