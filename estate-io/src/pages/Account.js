@@ -3,11 +3,9 @@ import {
   React, 
   useState 
 } from 'react';
-
 import { 
   useNavigate 
 } from 'react-router-dom';
-
 import { 
   Button,
   Container, 
@@ -17,16 +15,13 @@ import {
   Input,
   Row 
 } from 'reactstrap';
-
 import { 
   checkAuthenticated 
 } from "../Authentication";
-
 import { 
   fetchCityAndCountry,
   saveLocation
 } from '../Geolocation';
-
 import api from '../Api';
 
 

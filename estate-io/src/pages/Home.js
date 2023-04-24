@@ -3,9 +3,7 @@ import {
   useState, 
   useEffect 
 } from 'react';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { 
   Button,
   Card,
@@ -18,7 +16,6 @@ import {
   Row,
   UncontrolledCarousel
 } from 'reactstrap';
-
 import api from '../Api';
 
 

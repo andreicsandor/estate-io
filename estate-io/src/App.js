@@ -2,11 +2,8 @@ import {
   Route, 
   Routes 
 } from "react-router-dom";
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import About from './pages/About';
-
 import { 
   Login, 
   Logout, 
@@ -14,20 +11,14 @@ import {
   AccountManagement, 
   PasswordManagement 
 } from './pages/Account';
-
 import { 
   CommercialBuy, 
   CommercialRent, 
   CommercialProperty } from './pages/Commercial';
-
 import Contact from './pages/Contact';
-
 import Header from './pages/Header';
-
 import Home from './pages/Home';
-
 import News from './pages/News';
-
 import { ResidentialBuy, 
   ResidentialRent 
 } from './pages/Residential';

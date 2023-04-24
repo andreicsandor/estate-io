@@ -3,11 +3,9 @@ import {
   useState, 
   useEffect 
 } from 'react';
-
 import { 
   Link 
 } from "react-router-dom"
-
 import { 
   Navbar, 
   DropdownItem, 
@@ -15,13 +13,10 @@ import {
   DropdownToggle, 
   UncontrolledDropdown 
 } from 'reactstrap';
-
 import { 
   ReactComponent as UserIcon 
 } from '../assets/images/three-dots.svg';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { 
   checkAuthenticated 
 } from "../Authentication";

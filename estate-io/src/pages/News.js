@@ -3,9 +3,7 @@ import {
   useState, 
   useEffect 
 } from 'react';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { 
   Card, 
   CardBody, 
@@ -14,7 +12,6 @@ import {
   Col, 
   Row 
 } from 'reactstrap';
-
 import api from '../Api';
 
 

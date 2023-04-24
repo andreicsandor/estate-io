@@ -74,7 +74,6 @@ function ResidentialBuy() {
   );
 }
 
-
 function ResidentialRent() {
   const entries = [
     
@@ -117,6 +116,5 @@ function ResidentialRent() {
     </>
   );
 }
-
 
 export { ResidentialBuy, ResidentialRent }; 
