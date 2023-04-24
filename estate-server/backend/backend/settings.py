@@ -64,9 +64,9 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000', 
-    'http://192.168.100.8:3000',
-    'http://172.20.10.2:3000'
+    'http://localhost:3001', 
+    'http://192.168.100.8:3001',
+    'http://172.20.10.2:3001'
 ]
 
 ROOT_URLCONF = 'backend.urls'
