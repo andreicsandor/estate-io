@@ -1,78 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Form, FormGroup, Input, Button } from 'reactstrap';
-import api from '../api';
-import { refreshToken } from "../token";
+import { 
+  useEffect,
+  React, 
+  useState 
+} from 'react';
 
+import { 
+  useNavigate 
+} from 'react-router-dom';
 
-// Functions to check user authentication status
+import { 
+  Button,
+  Container, 
+  Col, 
+  Form,
+  FormGroup,
+  Input,
+  Row 
+} from 'reactstrap';
 
-const checkAuthenticated = async (navigate) => {
-  try {
-    const accessToken = localStorage.getItem("access_token");
-    if (accessToken) {
-      const response = await api.get("/api/check_authentication/");
-      if (response.data.authenticated) {
-        console.log("User is authenticated");
-        navigate("/");
-      } else {
-        console.log("User is not authenticated");
-        const refreshed = await refreshToken();
-        if (refreshed) {
-          checkAuthenticated(navigate);
-        } else {
-          navigate("/login");
-        }
-      }
-    } else {
-      console.log("No access token found");
-    }
-  } catch (error) {
-    console.error('An unknown error occurred:', error);
-  }
-};
+import { 
+  checkAuthenticated 
+} from "../Authentication";
 
+import { 
+  fetchCityAndCountry,
+  saveLocation
+} from '../Geolocation';
 
-const checkAnonymous = async (navigate) => {
-  try {
-    const accessToken = localStorage.getItem("access_token");
-    if (accessToken) {
-      const response = await api.get("/api/check_authentication/");
-      if (response.data.authenticated) {
-        console.log("User is authenticated");
-      } else {
-        console.log("User is not authenticated");
-        const refreshed = await refreshToken();
-        if (!refreshed) {
-          navigate("/login");
-        }
-      }
-    } else {
-      console.log("No access token found");
-      navigate("/login");
-    }
-  } catch (error) {
-    console.error('An unknown error occurred:', error);
-    navigate("/login");
-  }
-};
-
-
-// Function to get user location
-
-function saveLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      const locationData = {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-      };
-      localStorage.setItem('userLocation', JSON.stringify(locationData));
-    });
-  } else {
-    console.log('Geolocation is not supported by this browser.');
-  }
-}
+import api from '../Api';
 
 
 const Login = () => {
@@ -83,7 +38,14 @@ const Login = () => {
   
   // Check user authentication status when the component mounts
   useEffect(() => {
-    checkAuthenticated(navigate);
+    const checkAuth = async () => {
+      const isAuthenticated = await checkAuthenticated();
+      if (isAuthenticated) {
+        navigate('/');
+      }
+    };
+  
+    checkAuth();
   }, [navigate]);
 
   const handleSubmit = async (event) => {
@@ -162,21 +124,26 @@ const Login = () => {
   );
 };
 
-
 const Logout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
-    navigate('/');
+    const checkAuth = async () => {
+      const isAuthenticated = await checkAuthenticated();
+      if (isAuthenticated) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+      }
+      navigate('/');
+    };
+
+    checkAuth();
   }, [navigate]);
 
   return (
     <div></div>
   );
 };
-
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -190,7 +157,14 @@ const Signup = () => {
 
   // Check user authentication status when the component mounts
   useEffect(() => {
-    checkAuthenticated(navigate);
+    const checkAuth = async () => {
+      const isAuthenticated = await checkAuthenticated();
+      if (isAuthenticated) {
+        navigate('/');
+      }
+    };
+  
+    checkAuth();
   }, [navigate]);
 
   const handleSubmit = async (event) => {
@@ -318,7 +292,6 @@ const Signup = () => {
   );
 };
 
-
 const AccountManagement = () => {
   const [username, setUsername] = useState('');
   const [firstName, setName] = useState('');
@@ -330,22 +303,16 @@ const AccountManagement = () => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch the exact location
-  const fetchCityAndCountry = async (latitude, longitude) => {
-    try {
-      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`);
-      const data = await response.json();
-      const city = data.address.city || data.address.town || data.address.village;
-      const country = data.address.country;
-      setLocation(`${city}, ${country}`);
-    } catch (error) {
-      console.error('Error fetching city and country:', error);
-    }
-  };
-
   // Check user authentication status when the component mounts
   useEffect(() => {
-    checkAnonymous(navigate);
+    const checkAuth = async () => {
+      const isAuthenticated = await checkAuthenticated();
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
+    };
+  
+    checkAuth();
 
     const fetchUserInfo = async () => {
       try {
@@ -366,7 +333,7 @@ const AccountManagement = () => {
     // Get user location from localStorage
     const userLocation = JSON.parse(localStorage.getItem('userLocation'));
     if (userLocation) {
-      fetchCityAndCountry(userLocation.latitude, userLocation.longitude);
+      fetchCityAndCountry(userLocation.latitude, userLocation.longitude, setLocation);
     }
 
   }, [navigate]);
@@ -515,7 +482,6 @@ const AccountManagement = () => {
   );
 };
 
-
 const PasswordManagement = () => {
   const [old_password, setOldPassword] = useState('');
   const [new_password, setNewPassword] = useState('');
@@ -524,7 +490,14 @@ const PasswordManagement = () => {
 
   // Check user authentication status when the component mounts
   useEffect(() => {
-    checkAnonymous(navigate);
+    const checkAuth = async () => {
+      const isAuthenticated = await checkAuthenticated();
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
+    };
+  
+    checkAuth();
   }, [navigate]);
 
   const handleSubmit = async (event) => {
@@ -597,6 +570,5 @@ const PasswordManagement = () => {
     </>
   );
 };
-
 
 export { Login, Logout, Signup, AccountManagement, PasswordManagement };
