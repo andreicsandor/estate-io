@@ -22,9 +22,6 @@ body {
 }
 
 .card-wrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 100vw;
     margin-top: 2rem;
 }
 
