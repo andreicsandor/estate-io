@@ -1,6 +1,17 @@
 import React from 'react';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Row, Col, Card, CardBody, CardTitle, CardText } from 'reactstrap';
+
+import { 
+  Container, 
+  Row, 
+  Col, 
+  Card, 
+  CardBody, 
+  CardTitle, 
+  CardText 
+} from 'reactstrap';
+
 
 function About() {
   return (

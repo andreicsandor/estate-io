@@ -2,8 +2,9 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
 
+
 function ResidentialBuy() {
-  const images = [
+  const entries = [
     {
       id: 1,
       name: 'Luxury Condo in Downtown',
@@ -46,21 +47,21 @@ function ResidentialBuy() {
     </Row>
     <div className='m-5'>  
       <Row sm={12}>
-        {images.map(property => (
-          <Col sm={4} key={images.id}>
+        {entries.map(entry => (
+          <Col sm={4} key={entries.id}>
             <Card className='card-shadow-custom'>
               <CardImg className='card-custom'
-                top src={property.image} 
-                alt={property.name} 
+                top src={entry.image} 
+                alt={entry.name} 
                 width="100%"
               />
               <CardBody>
-                <CardTitle tag='h5' className='mb-2'>{property.name}</CardTitle>
-                <CardSubtitle className='mb-3'>{property.location} - {property.price}</CardSubtitle>
+                <CardTitle tag='h5' className='mb-2'>{entry.name}</CardTitle>
+                <CardSubtitle className='mb-3'>{entry.location} - {entry.price}</CardSubtitle>
                 <ul className='list-unstyled'>
-                  <li>{property.bedrooms} Bedrooms</li>
-                  <li>{property.bathrooms} Bathrooms</li>
-                  <li>{property.area} Area</li>
+                  <li>{entry.bedrooms} Bedrooms</li>
+                  <li>{entry.bathrooms} Bathrooms</li>
+                  <li>{entry.area} Area</li>
                 </ul>
                 <Button color='light' block>View Details</Button>
               </CardBody>
@@ -75,7 +76,7 @@ function ResidentialBuy() {
 
 
 function ResidentialRent() {
-  const images = [
+  const entries = [
     
   ];
 
@@ -89,22 +90,22 @@ function ResidentialRent() {
     </Row>
     <div className='m-5'>  
       <Row sm={12}>
-        {images.map(property => (
-          <Col sm={4} key={images.id}>
+        {entries.map(entry => (
+          <Col sm={4} key={entries.id}>
             <Card className='card-shadow-custom'>
               <CardImg className='card-custom'
-                top src={property.image} 
-                alt={property.name} 
+                top src={entry.image} 
+                alt={entry.name} 
                 style={{height: 400}} 
                 width="100%"
               />
               <CardBody>
-                <CardTitle tag='h5' className='mb-2'>{property.name}</CardTitle>
-                <CardSubtitle className='mb-3'>{property.location} - {property.price}</CardSubtitle>
+                <CardTitle tag='h5' className='mb-2'>{entry.name}</CardTitle>
+                <CardSubtitle className='mb-3'>{entry.location} - {entry.price}</CardSubtitle>
                 <ul className='list-unstyled'>
-                  <li>{property.bedrooms} Bedrooms</li>
-                  <li>{property.bathrooms} Bathrooms</li>
-                  <li>{property.area} Area</li>
+                  <li>{entry.bedrooms} Bedrooms</li>
+                  <li>{entry.bathrooms} Bathrooms</li>
+                  <li>{entry.area} Area</li>
                 </ul>
                 <Button color='light' block>View Details</Button>
               </CardBody>
@@ -117,5 +118,5 @@ function ResidentialRent() {
   );
 }
 
-export { ResidentialBuy, ResidentialRent }; 
 
+export { ResidentialBuy, ResidentialRent }; 

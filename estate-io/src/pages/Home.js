@@ -1,5 +1,7 @@
 import React from 'react';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { 
   Button,
   Card,
@@ -12,6 +14,7 @@ import {
   Row,
   UncontrolledCarousel
 } from 'reactstrap';
+
 
 function Home(args) {
   const articles = [
@@ -81,7 +84,7 @@ function Home(args) {
         <Col sm="6">
           <Card body className='card-custom'>
             <CardTitle tag="h5">Latest News</CardTitle>
-            <div className='subcard-wrapper-custom' style={{ height: 401, overflowY: "scroll" }}>
+            <div className='subcard-wrapper-custom' style={{ height: 600, overflowY: "scroll" }}>
               <Col sm="12">
                 {articles.map((property => (
                   <Card body className='subcard-custom' key={property.id}>
@@ -105,9 +108,6 @@ function Home(args) {
               alt="Card image cap"
               bottom
               src='/assets/images/lights.jpg'
-              style={{
-                height: 300
-              }}
               width="100%"
             />
           </Card>

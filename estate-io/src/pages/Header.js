@@ -1,9 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom"
-import { Navbar, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
-import { ReactComponent as UserIcon } from '../assets/images/three-dots.svg';
+import { 
+  React, 
+  useState, 
+  useEffect 
+} from 'react';
+
+import { 
+  Link 
+} from "react-router-dom"
+
+import { 
+  Navbar, 
+  DropdownItem, 
+  DropdownMenu, 
+  DropdownToggle, 
+  UncontrolledDropdown 
+} from 'reactstrap';
+
+import { 
+  ReactComponent as UserIcon 
+} from '../assets/images/three-dots.svg';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
-import api from '../api';
+
+import api from '../Api';
 
 
 // Function to check user authentication status

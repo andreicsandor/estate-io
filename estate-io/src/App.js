@@ -1,14 +1,37 @@
-import { Route, Routes } from "react-router-dom";
+import { 
+  Route, 
+  Routes 
+} from "react-router-dom";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import About from './pages/About';
-import { Login, Logout, Signup, AccountManagement, PasswordManagement } from './pages/Account';
-import { CommercialBuy, CommercialRent } from './pages/Commercial';
+
+import { 
+  Login, 
+  Logout, 
+  Signup, 
+  AccountManagement, 
+  PasswordManagement 
+} from './pages/Account';
+
+import { 
+  CommercialBuy, 
+  CommercialRent, 
+  CommercialProperty } from './pages/Commercial';
+
 import Contact from './pages/Contact';
+
 import Header from './pages/Header';
+
 import Home from './pages/Home';
+
 import News from './pages/News';
-import { ResidentialBuy, ResidentialRent } from './pages/Residential';
+
+import { ResidentialBuy, 
+  ResidentialRent 
+} from './pages/Residential';
+
 
 function App() {
   return (
@@ -28,6 +51,7 @@ function App() {
         <Route path="/residential-rent" element={<ResidentialRent />} />
         <Route path="/commercial-buy" element={<CommercialBuy />} />
         <Route path="/commercial-rent" element={<CommercialRent />} />
+        <Route path="/property/:id" element={<CommercialProperty />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </div>
