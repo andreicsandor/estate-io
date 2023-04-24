@@ -216,11 +216,14 @@ function CommercialProperty() {
             <CardBody>
               <CardTitle tag='h5' className='mb-2'>{entry.name}</CardTitle>
               <CardSubtitle className='mb-3'>{entry.location} - {entry.price}</CardSubtitle>
-              <ul className='list-unstyled'>
-                <li>{entry.offices} Offices</li>
-                <li>{entry.bathrooms} Bathrooms</li>
-                <li>{entry.area} Area</li>
-              </ul>
+              <div className="d-flex justify-content-between">
+                <ul className='list-unstyled'>
+                  <li>{entry.offices} Offices</li>
+                  <li>{entry.bathrooms} Bathrooms</li>
+                  <li>{entry.area} Area</li>
+                </ul>
+                <Button color="light">Schedule Visit</Button>
+              </div>
             </CardBody>
           </Card>
         </Col>
