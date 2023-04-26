@@ -1,7 +1,7 @@
 import { 
   refreshToken 
 } from './Token';
-import api from './Api';
+import api from './privateApi';
 
 
 // Function to check user authentication status

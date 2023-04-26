@@ -22,7 +22,7 @@ import {
   fetchCityAndCountry,
   saveLocation
 } from '../Geolocation';
-import api from '../Api';
+import api from '../privateApi';
 
 
 const Login = () => {

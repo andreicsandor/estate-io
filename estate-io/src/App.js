@@ -14,7 +14,8 @@ import {
 import { 
   CommercialBuy, 
   CommercialRent, 
-  CommercialProperty } from './pages/Commercial';
+} from './pages/Commercial';
+import Property from './pages/Property';
 import Contact from './pages/Contact';
 import Header from './pages/Header';
 import Home from './pages/Home';
@@ -42,7 +43,7 @@ function App() {
         <Route path="/residential-rent" element={<ResidentialRent />} />
         <Route path="/commercial-buy" element={<CommercialBuy />} />
         <Route path="/commercial-rent" element={<CommercialRent />} />
-        <Route path="/property/:id" element={<CommercialProperty />} />
+        <Route path="/property/:id" element={<Property />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
     </div>

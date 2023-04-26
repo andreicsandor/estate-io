@@ -12,7 +12,7 @@ import {
   Col, 
   Row 
 } from 'reactstrap';
-import api from '../Api';
+import api from '../publicApi';
 
 
 function News(args) {
