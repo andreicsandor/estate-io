@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, News
+from .models import CustomUser, CommercialProperty, ResidentialProperty, News, ResidentialAppointment, CommercialAppointment
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -51,7 +51,42 @@ class UserLoginSerializer(serializers.ModelSerializer):
         fields = ('username', 'password')
 
 
+class CommercialPropertySerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = CommercialProperty
+        fields = '__all__'
+
+    def get_image(self, obj):
+        return obj.image.url
+
+
+class ResidentialPropertySerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ResidentialProperty
+        fields = '__all__'
+
+    def get_image(self, obj):
+        return obj.image.url
+
+
 class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = ('id', 'title', 'body', 'created')
+
+
+class ResidentialAppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ResidentialAppointment
+        fields = ('id', 'residential_property', 'start_time', 'end_time')
+
+
+class CommercialAppointmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CommercialAppointment
+        fields = ('id', 'commercial_property', 'start_time', 'end_time')
+        
