@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -64,9 +66,9 @@ MIDDLEWARE = [
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3001', 
-    'http://192.168.100.8:3001',
-    'http://172.20.10.2:3001'
+    'http://localhost:3000', 
+    'http://192.168.100.8:3000',
+    'http://172.20.10.2:3000'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -103,6 +105,10 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+
+
+MEDIA_URL = '/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'assets')
 
 
 # Password validation

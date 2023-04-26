@@ -15,19 +15,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app_backend.views import check_authentication, login_view, signup_view, logout_view, account_view, password_view, news_view, headlines_view
+from django.conf import settings
+from django.conf.urls.static import static
+from app_backend.views import AccountViews, ResidentialPropertyViews, CommercialPropertyViews, NewsViews
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/check_authentication/', check_authentication),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/login/', login_view),
-    path('api/signup/', signup_view),
-    path('api/logout/', logout_view),
-    path('api/account/', account_view),
-    path('api/account-password/', password_view),
-    path('api/news/', news_view),
-    path('api/headlines/', headlines_view)
-]
+    path('api/check_authentication/', AccountViews.check_authentication),
+    path('api/token/', TokenObtainPairView.as_view()),
+    path('api/token/refresh/', TokenRefreshView.as_view()),
+    path('api/login/', AccountViews.login_view),
+    path('api/signup/', AccountViews.signup_view),
+    path('api/logout/', AccountViews.logout_view),
+    path('api/account/', AccountViews.account_view),
+    path('api/account-password/', AccountViews.password_view),
+    path('api/news/', NewsViews.news_view),
+    path('api/headlines/', NewsViews.headlines_view),
+    path('api/residential-properties-sale/', ResidentialPropertyViews.sale_view),
+    path('api/residential-properties-rent/', ResidentialPropertyViews.rent_view),
+    path('api/residential-spotlight/', ResidentialPropertyViews.spotlight_view),
+    path('api/commercial-properties-sale/', CommercialPropertyViews.sale_view),
+    path('api/commercial-properties-rent/', CommercialPropertyViews.rent_view),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
