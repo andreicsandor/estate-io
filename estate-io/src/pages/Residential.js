@@ -1,41 +1,67 @@
-import React from 'react';
+import { 
+  React, 
+  useEffect,
+  useState 
+} from 'react';
+import { 
+  useNavigate, 
+} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Row, Col, Card, CardImg, CardBody, CardTitle, CardSubtitle, Button } from 'reactstrap';
+import { 
+  Row, 
+  Col, 
+  Card, 
+  CardImg, 
+  CardBody, 
+  CardTitle, 
+  CardSubtitle, 
+  Button, 
+  Modal, 
+  ModalHeader, 
+  ModalBody, 
+  ModalFooter 
+} from 'reactstrap';
+import { 
+  checkAuthenticated 
+} from "../Authentication";
+import api from '../publicApi';
 
 
 function ResidentialBuy() {
-  const entries = [
-    {
-      id: 1,
-      name: 'Luxury Condo in Downtown',
-      image: '/assets/images/pool.jpg',
-      price: '$2,500,000',
-      location: 'Downtown',
-      bedrooms: 3,
-      bathrooms: 2,
-      area: '2,000 sqft'
-    },
-    {
-      id: 2,
-      name: 'Spacious Family Home',
-      image: '/assets/images/wood.jpg',
-      price: '$1,200,000',
-      location: 'Suburbia',
-      bedrooms: 4,
-      bathrooms: 3,
-      area: '3,000 sqft'
-    },
-    {
-      id: 3,
-      name: 'Oceanfront Villa',
-      image: '/assets/images/lake.jpg',
-      price: '$4,500,000',
-      location: 'Lakeside',
-      bedrooms: 5,
-      bathrooms: 4,
-      area: '4,500 sqft'
-    },
-  ];
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+
+  const [properties, setProperties] = useState([]);
+
+  // Check user authentication status and fetch entries when the component mounts
+  useEffect(() => {
+    const checkAuth = async () => {
+      const status = await checkAuthenticated();
+      setIsAuthenticated(status);
+    };
+
+    const fetchProperties = async () => {
+      try {
+        const response = await api.get('/api/residential-properties-sale/')
+        setProperties(response.data);
+      } catch (error) {
+        console.error('An error occurred while fetching properties:', error);
+      }
+    };
+
+    checkAuth();
+    fetchProperties();
+  }, []);
+
+  const handleClick = (id) => {
+    if (isAuthenticated === true) {
+      navigate(`/property/${id}`);
+    } else {
+      toggleModal();
+    }
+  };
 
   return (
     <>
@@ -47,72 +73,123 @@ function ResidentialBuy() {
     </Row>
     <div className='m-5'>  
       <Row sm={12}>
-        {entries.map(entry => (
-          <Col sm={4} key={entries.id}>
+        {properties.map(property => (
+          <Col sm={4} key={property.id}>
             <Card className='card-shadow-custom'>
               <CardImg className='card-custom'
-                top src={entry.image} 
-                alt={entry.name} 
+                top src={`http://127.0.0.1:8000${property.image}`} 
+                alt={property.name} 
                 width="100%"
               />
               <CardBody>
-                <CardTitle tag='h5' className='mb-2'>{entry.name}</CardTitle>
-                <CardSubtitle className='mb-3'>{entry.location} - {entry.price}</CardSubtitle>
+                <CardTitle tag='h5' className='mb-2'>{property.name}</CardTitle>
+                <CardSubtitle className='mb-3'>{property.location} - ${property.price}</CardSubtitle>
                 <ul className='list-unstyled'>
-                  <li>{entry.bedrooms} Bedrooms</li>
-                  <li>{entry.bathrooms} Bathrooms</li>
-                  <li>{entry.area} Area</li>
+                  <li>{property.bedrooms} Bedrooms</li>
+                  <li>{property.bathrooms} Bathrooms</li>
+                  <li>{property.area} sqm Area</li>
                 </ul>
-                <Button color='light' block>View Details</Button>
+                <Button color='light' block onClick={() => handleClick(property.id)}>View Details</Button>
               </CardBody>
             </Card>
           </Col>
         ))}
       </Row>
     </div>
+
+    <Modal isOpen={modal} toggle={toggleModal}>
+      <ModalHeader toggle={toggleModal}>Login Required</ModalHeader>
+      <ModalBody>
+        You need to be logged in to access this page.
+      </ModalBody>
+      <ModalFooter>
+        <Button color="dark" onClick={toggleModal}>OK</Button>
+      </ModalFooter>
+    </Modal>
+
     </>
   );
 }
 
 function ResidentialRent() {
-  const entries = [
-    
-  ];
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
+
+  const [properties, setProperties] = useState([]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const status = await checkAuthenticated();
+      setIsAuthenticated(status);
+    };
+  
+    const fetchProperties = async () => {
+      try {
+        const response = await api.get('/api/residential-properties-rent/')
+        setProperties(response.data);
+      } catch (error) {
+        console.error('An error occurred while fetching properties:', error);
+      }
+    };
+
+    checkAuth();
+    fetchProperties();
+  }, []);
+
+  const handleClick = (id) => {
+    if (isAuthenticated === true) {
+      navigate(`/property/${id}`);
+    } else {
+      toggleModal();
+    }
+  };
 
   return (
     <>
     <div style={{margin: '100px'}}></div>
     <Row>
       <Col>
-        <h1 className='display-5 text-center'>Available Properties</h1>
+        <h1 className='display-5 text-center'>Available Rentals</h1>
       </Col>
     </Row>
     <div className='m-5'>  
       <Row sm={12}>
-        {entries.map(entry => (
-          <Col sm={4} key={entries.id}>
+        {properties.map(property => (
+          <Col sm={4} key={property.id}>
             <Card className='card-shadow-custom'>
               <CardImg className='card-custom'
-                top src={entry.image} 
-                alt={entry.name} 
-                style={{height: 400}} 
+                top src={`http://127.0.0.1:8000${property.image}`} 
+                alt={property.name} 
                 width="100%"
               />
               <CardBody>
-                <CardTitle tag='h5' className='mb-2'>{entry.name}</CardTitle>
-                <CardSubtitle className='mb-3'>{entry.location} - {entry.price}</CardSubtitle>
+                <CardTitle tag='h5' className='mb-2'>{property.name}</CardTitle>
+                <CardSubtitle className='mb-3'>{property.location} - ${property.price}</CardSubtitle>
                 <ul className='list-unstyled'>
-                  <li>{entry.bedrooms} Bedrooms</li>
-                  <li>{entry.bathrooms} Bathrooms</li>
-                  <li>{entry.area} Area</li>
+                  <li>{property.bedrooms} Bedrooms</li>
+                  <li>{property.bathrooms} Bathrooms</li>
+                  <li>{property.area} sqm Area</li>
                 </ul>
-                <Button color='light' block>View Details</Button>
+                 <Button color='light' block onClick={() => handleClick(property.id)}>View Details</Button>
               </CardBody>
             </Card>
           </Col>
         ))}
       </Row>
     </div>
+
+    <Modal isOpen={modal} toggle={toggleModal}>
+      <ModalHeader toggle={toggleModal}>Login Required</ModalHeader>
+      <ModalBody>
+        You need to be logged in to access this page.
+      </ModalBody>
+      <ModalFooter>
+        <Button color="dark" onClick={toggleModal}>OK</Button>
+      </ModalFooter>
+    </Modal>
+
     </>
   );
 }

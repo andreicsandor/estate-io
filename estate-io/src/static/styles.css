@@ -38,6 +38,13 @@ body {
     width: 100%;
 }
 
+.centered-bold-text {
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
 .lead {
     font-size: 18px !important;
 }
