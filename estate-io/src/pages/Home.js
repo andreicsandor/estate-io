@@ -3,26 +3,45 @@ import {
   useState, 
   useEffect 
 } from 'react';
+import { 
+  useNavigate, 
+} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { 
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  CardImgOverlay,
+  Row, 
+  Col, 
+  Card, 
+  CardImg, 
+  CardBody, 
+  CardTitle, 
   CardText,
-  CardTitle,
-  Col,
-  Row,
+  Button, 
+  Modal, 
+  ModalHeader, 
+  ModalBody, 
+  ModalFooter,
   UncontrolledCarousel
 } from 'reactstrap';
-import api from '../Api';
+import { 
+  checkAuthenticated 
+} from "../Authentication";
+import api from '../publicApi';
 
 
 function Home(args) {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => setModal(!modal);
   const [articles, setArticles] = useState([]);
+  const [spotlight, setSpotlight] = useState([]);
 
   useEffect(() => {
+    const checkAuth = async () => {
+      const status = await checkAuthenticated();
+      setIsAuthenticated(status);
+    };
+
     const fetchHeadlines = async () => {
       try {
         const response = await api.get('/api/headlines/')
@@ -32,8 +51,27 @@ function Home(args) {
       }
     };
 
+    const fetchSpotlight = async () => {
+      try {
+        const response = await api.get('/api/residential-spotlight/')
+        setSpotlight(response.data);
+      } catch (error) {
+        console.error('An error occurred while fetching spotlight:', error);
+      }
+    };
+
+    checkAuth();
     fetchHeadlines();
+    fetchSpotlight();
   }, []);
+
+  const handleClick = (id) => {
+    if (isAuthenticated === true) {
+      navigate(`/property/${id}`);
+    } else {
+      toggleModal();
+    }
+  };
 
   return (
     <>
@@ -69,7 +107,7 @@ function Home(args) {
         <Col sm="6">
           <Card body className='card-custom'>
             <CardTitle tag="h5">Latest News</CardTitle>
-            <div className='subcard-wrapper-custom' style={{ height: 600, overflowY: "scroll" }}>
+            <div className='subcard-wrapper-custom' style={{ height: 550, overflowY: "scroll" }}>
               <Col sm="12">
                 {articles.map((article => (
                   <Card body className='subcard-custom' key={article.id}>
@@ -84,21 +122,36 @@ function Home(args) {
         </Col>
         <Col sm="6">
           <Card className='card-custom'>
+          {spotlight.map((spotlight => (
+            <>
             <CardBody>
               <CardTitle tag="h5">Popular Now</CardTitle>
-              <CardText>Our top pick for this week includes a modern and sleek-looking house in the heart of Beverly Hills.</CardText>
-              <Button color='light' block>View Details</Button>
+              <CardText>Our top pick for this week includes {spotlight.name}.</CardText>
+              <Button color='light' block onClick={() => handleClick(spotlight.id)}>View Details</Button>
             </CardBody>
             <CardImg
-              alt="Card image cap"
+              top src={`http://127.0.0.1:8000${spotlight.image}`} 
               bottom
-              src='/assets/images/lights.jpg'
+              alt={spotlight.name} 
               width="100%"
             />
+            </>
+          )))}
           </Card>
         </Col>
       </Row>
     </div>
+
+    <Modal isOpen={modal} toggle={toggleModal}>
+      <ModalHeader toggle={toggleModal}>Login Required</ModalHeader>
+      <ModalBody>
+        You need to be logged in to access this page.
+      </ModalBody>
+      <ModalFooter>
+        <Button color="dark" onClick={toggleModal}>OK</Button>
+      </ModalFooter>
+    </Modal>
+
     </>
   );
 }
