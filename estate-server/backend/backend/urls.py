@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from app_backend.views import AccountViews, ResidentialPropertyViews, CommercialPropertyViews, NewsViews
+from app_backend.views import AccountViews, ResidentialPropertyViews, CommercialPropertyViews, NewsViews, AppointmentViews
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
@@ -37,4 +37,6 @@ urlpatterns = [
     path('api/residential-spotlight/', ResidentialPropertyViews.spotlight_view),
     path('api/commercial-properties-sale/', CommercialPropertyViews.sale_view),
     path('api/commercial-properties-rent/', CommercialPropertyViews.rent_view),
+    path('api/appointments/', AppointmentViews.appointment_view),
+    path('api/new-appointment/', AppointmentViews.new_appointment_view),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
