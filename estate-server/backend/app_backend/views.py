@@ -1,12 +1,10 @@
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.shortcuts import get_object_or_404
-from rest_framework import serializers
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from .serializers import UserLoginSerializer, UserAccountSerializer, UserPasswordSerializer, CommercialPropertySerializer, ResidentialPropertySerializer, NewsSerializer, ResidentialAppointmentSerializer, CommercialAppointmentSerializer
-from .models import CustomUser, CommercialProperty, ResidentialProperty, News
+from .serializers import UserLoginSerializer, UserAccountSerializer, UserPasswordSerializer, CommercialPropertySerializer, ResidentialPropertySerializer, NewsSerializer, ResidentialAppointmentSerializer, CommercialAppointmentSerializer, AppointmentSerializer
+from .models import CustomUser, CommercialProperty, ResidentialProperty, News, ResidentialAppointment, CommercialAppointment
 
 
 class AccountViews:
@@ -158,6 +156,60 @@ class CommercialPropertyViews:
         properties = CommercialProperty.objects.filter(type='rent')
         serializer = CommercialPropertySerializer(properties, many=True)
         return Response(serializer.data)
+    
+
+class AppointmentViews:
+    @staticmethod
+    def get_queryset(property_id):
+        if property_id is not None:
+            residential_appointments = ResidentialAppointment.objects.filter(residential_property__id=property_id)
+            if residential_appointments.exists():
+                return residential_appointments
+
+            commercial_appointments = CommercialAppointment.objects.filter(commercial_property__id=property_id)
+            if commercial_appointments.exists():
+                return commercial_appointments
+
+        return ResidentialAppointment.objects.none()
+
+    @staticmethod
+    @api_view(['GET'])
+    @permission_classes([IsAuthenticated])
+    def appointment_view(request):
+        property_id = request.GET.get('property', None)
+        queryset = AppointmentViews.get_queryset(property_id)
+        serializer = AppointmentSerializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    @staticmethod
+    @api_view(['POST'])
+    @permission_classes([IsAuthenticated])
+    def new_appointment_view(request):
+        property_id = request.data.get('property_id')
+        appointment_datetime = request.data.get('appointment_datetime')
+        appointment_type = request.data.get('appointment_type')
+        print(appointment_datetime)
+
+        if not (property_id and appointment_datetime and appointment_type):
+            return Response({'error': 'All fields are required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+        if appointment_type == 'residential':
+            residential_property = ResidentialProperty.objects.filter(id=property_id).first()
+            if residential_property:
+                new_appointment = ResidentialAppointment(person=user, residential_property=residential_property, time=appointment_datetime)
+                new_appointment.save()
+                serializer = ResidentialAppointmentSerializer(new_appointment)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        elif appointment_type == 'commercial':
+            commercial_property = CommercialProperty.objects.filter(id=property_id).first()
+            if commercial_property:
+                new_appointment = CommercialAppointment(person=user, commercial_property=commercial_property, time=appointment_datetime)
+                new_appointment.save()
+                serializer = CommercialAppointmentSerializer(new_appointment)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'error': 'Invalid appointment.'}, status=status.HTTP_400_BAD_REQUEST)
     
 
 class NewsViews:
