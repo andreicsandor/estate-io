@@ -29,11 +29,11 @@ class ResidentialPropertyAdmin(admin.ModelAdmin):
 
 
 class CommercialAppointmentAdmin(admin.ModelAdmin):
-    list_display = ('commercial_property', 'start_time', 'end_time')
+    list_display = ('commercial_property', 'time')
 
 
 class ResidentialAppointmentAdmin(admin.ModelAdmin):
-    list_display = ('residential_property', 'start_time', 'end_time')
+    list_display = ('residential_property', 'time')
 
 
 class NewsAdmin(admin.ModelAdmin):

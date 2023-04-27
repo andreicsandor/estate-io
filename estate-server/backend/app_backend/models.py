@@ -57,11 +57,10 @@ class ResidentialProperty(models.Model):
 class CommercialAppointment(models.Model):
     commercial_property = models.ForeignKey(CommercialProperty, on_delete=models.CASCADE)
     person = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    start_time = models.DateTimeField(default=datetime.now)
-    end_time = models.DateTimeField(default=datetime.now() + timedelta(minutes=30))
+    time = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return f"Appointment for {self.commercial_property.name} from {self.start_time.strftime('%Y-%m-%d %H:%M')} to {self.end_time.strftime('%Y-%m-%d %H:%M')}"
+        return f"Appointment for {self.commercial_property.name} from {self.time.strftime('%Y-%m-%d %H:%M')}"
     
     class Meta:
         verbose_name_plural = "Appointments Commercial"
@@ -69,11 +68,10 @@ class CommercialAppointment(models.Model):
 
 class ResidentialAppointment(models.Model):
     residential_property = models.ForeignKey(CommercialProperty, on_delete=models.CASCADE)
-    start_time = models.DateTimeField(default=datetime.now)
-    end_time = models.DateTimeField(default=datetime.now() + timedelta(minutes=30))
+    time = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
-        return f"Appointment for {self.residential_property.name} from {self.start_time.strftime('%Y-%m-%d %H:%M')} to {self.end_time.strftime('%Y-%m-%d %H:%M')}"
+        return f"Appointment for {self.residential_property.name} from {self.time.strftime('%Y-%m-%d %H:%M')}"
     
     class Meta:
         verbose_name_plural = "Appointments Residential"

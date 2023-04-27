@@ -82,11 +82,18 @@ class NewsSerializer(serializers.ModelSerializer):
 class ResidentialAppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ResidentialAppointment
-        fields = ('id', 'residential_property', 'start_time', 'end_time')
+        fields = ('id', 'residential_property', 'time')
 
 
 class CommercialAppointmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommercialAppointment
-        fields = ('id', 'commercial_property', 'start_time', 'end_time')
-        
+        fields = ('id', 'commercial_property', 'time')
+
+
+class AppointmentSerializer(serializers.Serializer):
+    def to_representation(self, instance):
+        if isinstance(instance, ResidentialAppointment):
+            return ResidentialAppointmentSerializer(instance).data
+        elif isinstance(instance, CommercialAppointment):
+            return CommercialAppointmentSerializer(instance).data
