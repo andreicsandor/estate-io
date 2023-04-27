@@ -57,7 +57,7 @@ function CommercialBuy() {
 
   const handleClick = (id) => {
     if (isAuthenticated === true) {
-      navigate(`/property/${id}`);
+      navigate(`/commercial-property/${id}`);
     } else {
       toggleModal();
     }

@@ -57,7 +57,7 @@ function ResidentialBuy() {
 
   const handleClick = (id) => {
     if (isAuthenticated === true) {
-      navigate(`/property/${id}`);
+      navigate(`/residential-property/${id}`);
     } else {
       toggleModal();
     }
