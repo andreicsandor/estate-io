@@ -261,7 +261,7 @@ import {
                       {property.location} - ${property.price}
                     </CardSubtitle>
                     <ul className="list-unstyled">
-                      <li>{property.offices}{property.bedrooms} Rooms</li>
+                      <li>{property.offices} Offices</li>
                       <li>{property.bathrooms} Bathrooms</li>
                       <li>{property.area} sqm Area</li>
                     </ul>
