@@ -67,7 +67,8 @@ class CommercialAppointment(models.Model):
 
 
 class ResidentialAppointment(models.Model):
-    residential_property = models.ForeignKey(CommercialProperty, on_delete=models.CASCADE)
+    residential_property = models.ForeignKey(ResidentialProperty, on_delete=models.CASCADE)
+    person = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     time = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
